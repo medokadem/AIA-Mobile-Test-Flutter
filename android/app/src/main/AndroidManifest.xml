@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:label="aia_mobile_test_flutter"
+        android:label="AIA TEST"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
