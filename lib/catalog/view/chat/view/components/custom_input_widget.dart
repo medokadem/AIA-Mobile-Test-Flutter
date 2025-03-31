@@ -15,13 +15,18 @@ class CustomInputWidget extends StatefulWidget {
     this.onAttachmentPressed,
     required this.onSendPressed,
     required this.theme,
+    this.isLoading = false,
+    this.isListeningCallback,
     this.options = const InputOptions(),
   });
+
+  final bool isLoading;
 
   final bool? isAttachmentUploading;
 
   /// See [AttachmentButton.onPressed].
   final VoidCallback? onAttachmentPressed;
+  final Function(bool)? isListeningCallback;
 
   /// Will be called on [SendButton] tap. Has [types.PartialText] which can
   /// be transformed to [types.TextMessage] and added to the messages list.
@@ -120,6 +125,9 @@ class _CustomInputWidgetState extends State<CustomInputWidget> {
         },
       );
     }
+    if(widget.isListeningCallback != null){
+      widget.isListeningCallback!(_isListening);
+    }
   }
 
   void _stopListening() {
@@ -129,6 +137,10 @@ class _CustomInputWidgetState extends State<CustomInputWidget> {
     if (_voiceText.trim().isNotEmpty) {
       widget.onSendPressed(types.PartialText(text: _voiceText.trim()));
       _voiceText = '';
+    }
+
+    if(widget.isListeningCallback != null){
+      widget.isListeningCallback!(_isListening);
     }
   }
 
@@ -178,91 +190,109 @@ class _CustomInputWidgetState extends State<CustomInputWidget> {
             decoration:
             widget.theme.inputContainerDecoration,
             padding: safeAreaInsets,
-            child: Row(
-              textDirection: TextDirection.ltr,
+            child: Column(
               children: [
-                if (widget.onAttachmentPressed != null)
-                  AttachmentButton(
-                    isLoading: widget.isAttachmentUploading ?? false,
-                    onPressed: widget.onAttachmentPressed,
-                    padding: buttonPadding,
-                  ),
-                Expanded(
-                  child: Padding(
-                    padding: textPadding,
-                    child: TextField(
-                      enabled: widget.options.enabled,
-                      autocorrect: widget.options.autocorrect,
-                      autofocus: widget.options.autofocus,
-                      enableSuggestions: widget.options.enableSuggestions,
-                      controller: _textController,
-                      cursorColor: widget
-                          .theme
-                          .inputTextCursorColor,
-                      decoration: widget
-                          .theme
-                          .inputTextDecoration
-                          .copyWith(
-                        hintStyle: widget
-                            .theme
-                            .inputTextStyle
-                            .copyWith(
-                          color: widget
-                              .theme
-                              .inputTextColor
-                              .withOpacity(0.5),
-                        ),
-                        hintText: _isListening ? "Listening now... , release to send your record as text" :"Message",
-                      ),
-                      focusNode: _inputFocusNode,
-                      keyboardType: widget.options.keyboardType,
-                      maxLines: 5,
-                      minLines: 1,
-                      onChanged: widget.options.onTextChanged,
-                      onTap: widget.options.onTextFieldTap,
-                      style: widget
-                          .theme
-                          .inputTextStyle
-                          .copyWith(
-                        color: widget
-                            .theme
-                            .inputTextColor,
-                      ),
-                      textCapitalization: TextCapitalization.sentences,
-                    ),
-                  ),
-                ),
-                // Mic button with animation
-                GestureDetector(
-                  onLongPressStart: (_) => _startListening(),
-                  onLongPressEnd: (_) => _stopListening(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: _isListening ? Colors.redAccent : Colors.grey[300],
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(
-                      _isListening ? Icons.mic : Icons.mic_none,
-                      color: _isListening ? Colors.white : Colors.black,
+                    height: widget.isLoading ? 4 : 0,
+                    child: const LinearProgressIndicator(
+                      color: Colors.yellow,
+                      backgroundColor: Colors.transparent,
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: buttonPadding.bottom + buttonPadding.top + 24,
-                  ),
-                  child: Visibility(
-                    visible: _sendButtonVisible,
-                    child: SendButton(
-                      onPressed: _handleSendPressed,
-                      padding: buttonPadding,
+                Row(
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    if (widget.onAttachmentPressed != null)
+                      AttachmentButton(
+                        isLoading: widget.isAttachmentUploading ?? false,
+                        onPressed: widget.onAttachmentPressed,
+                        padding: buttonPadding,
+                      ),
+                    Expanded(
+                      child: Padding(
+                        padding: textPadding,
+                        child: TextField(
+                          enabled: widget.options.enabled,
+                          autocorrect: widget.options.autocorrect,
+                          autofocus: widget.options.autofocus,
+                          enableSuggestions: widget.options.enableSuggestions,
+                          controller: _textController,
+                          cursorColor: widget
+                              .theme
+                              .inputTextCursorColor,
+                          decoration: widget
+                              .theme
+                              .inputTextDecoration
+                              .copyWith(
+                            hintStyle: widget
+                                .theme
+                                .inputTextStyle
+                                .copyWith(
+                              color: widget
+                                  .theme
+                                  .inputTextColor
+                                  .withOpacity(0.5),
+                            ),
+                            hintText: _isListening ? "Listening... ,release to send your record as a text" :"Message",
+                          ),
+                          focusNode: _inputFocusNode,
+                          keyboardType: widget.options.keyboardType,
+                          maxLines: 5,
+                          minLines: 1,
+                          onChanged: widget.options.onTextChanged,
+                          onTap: widget.options.onTextFieldTap,
+                          style: widget
+                              .theme
+                              .inputTextStyle
+                              .copyWith(
+                            color: widget
+                                .theme
+                                .inputTextColor,
+                          ),
+                          textCapitalization: TextCapitalization.sentences,
+                        ),
+                      ),
                     ),
-                  ),
+                    // Mic button with animation
+
+                    GestureDetector(
+                      onLongPressStart: (_) => _startListening(),
+                      onLongPressEnd: (_) => _stopListening(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: _isListening ? Colors.redAccent : Colors.grey[300],
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            _isListening ? Icons.mic : Icons.mic_none,
+                            color: _isListening ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: buttonPadding.bottom + buttonPadding.top + 24,
+                      ),
+                      child: Visibility(
+                        visible: _sendButtonVisible,
+                        child: SendButton(
+                          onPressed: _handleSendPressed,
+                          padding: buttonPadding,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

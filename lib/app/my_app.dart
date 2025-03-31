@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.chatScreen,
+      initialRoute: AppRoutes.splashScreen,
       onGenerateInitialRoutes: (_) => [
         RouteGenerator.onGenerateRoute(RouteSettings(name: _)),
       ],

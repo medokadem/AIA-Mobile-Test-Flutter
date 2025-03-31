@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'app/my_app.dart';
 import 'catalog/enums/lang_type.dart';
 import '../../out-buildings/dependency_injector.dart' as di;
@@ -19,7 +20,7 @@ Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
   await EasyLocalization.ensureInitialized();
-
+  await dotenv.load();
   if (PrefsKeys.init == false) {
     await di.init();
     PrefsKeys.init = true;

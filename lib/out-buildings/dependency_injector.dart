@@ -1,3 +1,5 @@
+import 'package:aia_mobile_test_flutter/catalog/service/chatgpt/chat_gpt_service.dart';
+import 'package:aia_mobile_test_flutter/catalog/view/gpt/bloc/chat_gpt_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import '../catalog/infrastructure/data_source/feature/feature_remote_data_source.dart';
@@ -14,6 +16,7 @@ Future init() async {
   getIt.registerLazySingleton(() => NavigationService());
   getIt.registerSingleton<DioNetworkService>(DioNetworkService());
   getIt.registerLazySingleton<Dio>(() => getIt<DioNetworkService>().dio);
+  getIt.registerSingleton<ChatGPTService>(ChatGPTService(getIt()));
 
   ///Data Layer data sources
   getIt.registerLazySingleton(() => FeatureRemoteDataSource(getIt()));
@@ -23,5 +26,6 @@ Future init() async {
 
   ///Presentation Layer - Blocs
   getIt.registerFactory(() => GetFeatureBloc(featureRepository: getIt()));
+  getIt.registerFactory(() => ChatGPTBloc(chatGPTService: getIt()));
 
 }

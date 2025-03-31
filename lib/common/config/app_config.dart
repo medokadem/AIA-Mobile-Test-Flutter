@@ -16,3 +16,9 @@ class AppStores{
   static const huaweiStoreURL = r'';
 
 }
+class AppConfig{
+  static const googlePlayUrl = r'';
+  static const appStoreUrl = r'';
+  static const huaweiStoreURL = r'';
+
+}
