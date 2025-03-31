@@ -7,6 +7,7 @@ import '../../out-buildings/dependency_injector.dart' as di;
 import 'common/config/app_config.dart';
 import 'common/config/shared_data.dart';
 import 'common/helper/shared_preferences_helper.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
   await initializeApp();
@@ -16,6 +17,7 @@ Future<void> main() async {
 // 045
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   await EasyLocalization.ensureInitialized();
 
   if (PrefsKeys.init == false) {
