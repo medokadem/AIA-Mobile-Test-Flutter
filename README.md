@@ -96,9 +96,17 @@ Built by **Mouayad Aljamee** – Senior Mobile Developer / Mobile Team Lead
 
 ---
 
-## 📷 Screenshots
+## iOS Version - TestFlight Public Link:
 
-> _(You can add screenshots or screen recordings here later)_
+https://testflight.apple.com/join/HS1A7WEs
+
+## Android APK:
+
+https://drive.google.com/file/d/1d_LzYBtP08_chx29Ekv8RYuoN1ZGW578/view?usp=sharing
+
+## 📷 Screenshots & Video 
+
+https://drive.google.com/drive/folders/1Uat3958ZSVhB8mUC1aKO5JtdjukIshTL?usp=sharing 
 
 ---
 
