@@ -1,4 +1,4 @@
-# 🤖 Voice Chat Assistant — Flutter App
+# 🤖 AIA - Voice Chat Assistant — Flutter App
 
 A powerful, modern AI voice assistant app built with **Flutter**, featuring a clean chat interface, speech input/output, and integration with **ChatGPT**. Designed to deliver a rich voice-driven user experience with smart UI/UX enhancements.
 
