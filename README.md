@@ -35,7 +35,7 @@ OpenAI API keys are securely removed from source code and environment-based conf
 The currently spoken word is visually highlighted in real-time as the message is read.
 
 🔹 **Google Cloud TTS Integration (Planned)**  
-Using **word time offsets** from Google Cloud TTS (paid) will allow precise synchronization for highlighted text (currently using a smart timing workaround).
+Using **word time offsets** from Google Cloud TTS (paid) will allow precise synchronization for highlighted text.
 
 🔹 **UI/UX Upgrades**  
 Includes splash screen, custom input widget with animation, modern message bubbles, and clean dark/light mode friendly themes.
