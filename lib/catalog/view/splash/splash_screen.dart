@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushNamed(context, AppRoutes.chatScreen);
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.chatScreen, (route) => false);
     });
   }
 
